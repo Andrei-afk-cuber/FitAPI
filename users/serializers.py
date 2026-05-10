@@ -4,6 +4,19 @@ from rest_framework.exceptions import ValidationError
 from .models import User
 
 
+# serializer for get users list
+class UserListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'first_name', 'last_name', 'gender', 'age')
+
+# serializer for get user profile
+class UserRetrieveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'first_name', 'last_name', 'gender', 'age', 'weight', 'height')
+
+# serializer for create user
 class UserCreateSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     repeat_password = serializers.CharField(write_only=True)
