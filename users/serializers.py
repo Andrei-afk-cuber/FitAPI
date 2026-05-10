@@ -25,3 +25,11 @@ class UserCreateSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+
+# serializer for update user
+class UserUpdateSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = User
+        fields = ('id', 'first_name', 'last_name', 'weight', 'height', 'age')

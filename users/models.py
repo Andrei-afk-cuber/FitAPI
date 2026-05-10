@@ -34,6 +34,10 @@ class User(AbstractUser):
     age = models.IntegerField(validators=[MinValueValidator(16), MaxValueValidator(100)])
     activity_status = models.CharField(choices=ACTIVITY_CHOICES, max_length=5, default='*')
     password = models.CharField(blank=False, validators=[MinLengthValidator(8)])
+    username = None
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'gender', 'weight', 'height', 'age', 'activity_status']
 
     class Meta:
         verbose_name = 'User'
