@@ -4,10 +4,10 @@ from rest_framework.exceptions import ValidationError
 from .models import User
 
 
-# TODO: доделать сериализатор
-class UserSerializer(serializers.ModelSerializer):
+class UserCreateSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     repeat_password = serializers.CharField(write_only=True)
+    password = serializers.CharField(write_only=True)
 
     class Meta:
         model = User

@@ -5,6 +5,7 @@ from .models import User
 from .serializers import UserSerializer
 
 
+# view for register user
 class UserCreateView(CreateAPIView):
     model = User
     serializer_class = UserSerializer
