@@ -5,7 +5,6 @@ from .models import User
 from .serializers import UserSerializer
 
 
-# TODO: сделать и подключить представление для регистрации пользователей
 class UserCreateView(CreateAPIView):
     model = User
     serializer_class = UserSerializer
