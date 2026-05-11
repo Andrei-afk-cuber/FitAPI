@@ -8,13 +8,24 @@ from .models import User
 class UserListSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'first_name', 'last_name', 'gender', 'age')
+        fields = ("id", "first_name", "last_name", "gender", "age")
+
 
 # serializer for get user profile
 class UserRetrieveSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'first_name', 'last_name', 'gender', 'age', 'weight', 'height')
+        fields = (
+            "id",
+            "first_name",
+            "last_name",
+            "gender",
+            "age",
+            "weight",
+            "height",
+            "is_active",
+        )
+
 
 # serializer for create user
 class UserCreateSerializer(serializers.ModelSerializer):
@@ -24,20 +35,39 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'first_name', 'last_name', 'gender', 'weight', 'height', 'age', 'email', 'password', 'repeat_password')
+        fields = (
+            "id",
+            "first_name",
+            "last_name",
+            "gender",
+            "weight",
+            "height",
+            "age",
+            "email",
+            "password",
+            "repeat_password",
+        )
+
+    # check email unique
+    def validate_email(self, value):
+        if User.objects.filter(email=value, is_active=True).exists():
+            raise ValidationError("Active user with this email already exists")
+
+        return value
 
     # validate password and repeat_password
     def validate(self, attrs):
-        if attrs['password'] == attrs['repeat_password']:
-            attrs.pop('repeat_password')
+        if attrs["password"] == attrs["repeat_password"]:
+            attrs.pop("repeat_password")
             return attrs
-        raise ValidationError('Password does not match')
+        raise ValidationError("Password does not match")
 
     def create(self, validated_data):
         user = User(**validated_data)
-        user.set_password(validated_data['password'])
+        user.set_password(validated_data["password"])
         user.save()
         return user
+
 
 # serializer for update user
 class UserUpdateSerializer(serializers.ModelSerializer):
@@ -45,4 +75,4 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'first_name', 'last_name', 'weight', 'height', 'age')
+        fields = ("id", "first_name", "last_name", "weight", "height", "age")
