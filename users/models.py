@@ -23,10 +23,17 @@ class User(AbstractUser):
     ]
 
     ACTIVITY_CHOICES = [
-        ("*", "Not active"),
-        ("**", "Medium"),
-        ("***", "Active"),
-        ("****", "Very active"),
+        (1, "Not active"),
+        (2, "Light"),
+        (3, "Medium"),
+        (4, "High"),
+        (5, "Very high"),
+    ]
+
+    TARGET_CHOICES = [
+        ("loss", "Weight loss"),
+        ("maintain", "Maintenance"),
+        ("gain", "Gaining muscle mass"),
     ]
 
     # fields
@@ -42,6 +49,9 @@ class User(AbstractUser):
     )
     activity_status = models.CharField(
         choices=ACTIVITY_CHOICES, max_length=5, default="*"
+    )
+    target = models.CharField(
+        choices=TARGET_CHOICES, max_length=20, default="weight maintenance"
     )
     body_mass_index = models.FloatField(default=0)
     password = models.CharField(blank=False, validators=[MinLengthValidator(8)])
