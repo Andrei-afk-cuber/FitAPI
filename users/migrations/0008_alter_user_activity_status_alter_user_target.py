@@ -4,20 +4,36 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('users', '0007_user_target'),
+        ("users", "0007_user_target"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='user',
-            name='activity_status',
-            field=models.IntegerField(choices=[(1, 'Not active'), (2, 'Light'), (3, 'Medium'), (4, 'High'), (5, 'Very high')], default=1),
+            model_name="user",
+            name="activity_status",
+            field=models.IntegerField(
+                choices=[
+                    (1, "Not active"),
+                    (2, "Light"),
+                    (3, "Medium"),
+                    (4, "High"),
+                    (5, "Very high"),
+                ],
+                default=1,
+            ),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='target',
-            field=models.CharField(choices=[('loss', 'Weight loss'), ('maintain', 'Maintenance'), ('gain', 'Gaining muscle mass')], default='maintain', max_length=20),
+            model_name="user",
+            name="target",
+            field=models.CharField(
+                choices=[
+                    ("loss", "Weight loss"),
+                    ("maintain", "Maintenance"),
+                    ("gain", "Gaining muscle mass"),
+                ],
+                default="maintain",
+                max_length=20,
+            ),
         ),
     ]

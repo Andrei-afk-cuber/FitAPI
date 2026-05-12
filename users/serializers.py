@@ -25,7 +25,7 @@ class UserRetrieveSerializer(serializers.ModelSerializer):
             "height",
             "activity_status",
             "is_active",
-            "body_mass_index"
+            "body_mass_index",
         )
 
 
@@ -55,7 +55,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
         )
 
     # calculate body mass index
-    def get_body_mass_index(self, obj):
+    def get_body_mass_index(self, obj) -> float:
         return round(obj.weight / (obj.height / 100) ** 2, 1)
 
     # check email unique

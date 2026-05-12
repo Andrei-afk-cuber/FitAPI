@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('users', '0005_user_username_alter_user_email'),
+        ("users", "0005_user_username_alter_user_email"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='user',
-            name='body_mass_index',
+            model_name="user",
+            name="body_mass_index",
             field=models.FloatField(default=0),
         ),
     ]

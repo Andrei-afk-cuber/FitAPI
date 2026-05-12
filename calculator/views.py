@@ -1,3 +1,5 @@
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -10,6 +12,11 @@ from .serializers import NutritionSerializer
 class DietView(APIView):
     permission_classes = [IsAuthenticated]
 
+    @extend_schema(
+        summary="Diet",
+        description="Calculate and get diet for authenticated user",
+        responses={200: NutritionSerializer, 401: OpenApiTypes.STR},
+    )
     def get(self, request):
         user = request.user
 
@@ -35,5 +42,12 @@ class DietView(APIView):
 class ActivityInfoView(APIView):
     permission_classes = [IsAuthenticated]
 
+    @extend_schema(
+        summary="Activity info",
+        description="Get activity info",
+        responses={
+            200: OpenApiTypes.STR,
+        },
+    )
     def get(self, request):
         return Response(NutritionCalculator.get_info(), status=status.HTTP_200_OK)

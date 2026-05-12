@@ -81,5 +81,5 @@ class NutritionCalculator:
             2: "Light activity 1-3 days a week",
             3: "Moderate exercise 3-5 days a week",
             4: "Intensive training 6-7 days a week",
-            5: "Very intense exercise every day"
+            5: "Very intense exercise every day",
         }

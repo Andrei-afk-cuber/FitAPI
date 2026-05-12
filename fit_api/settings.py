@@ -42,8 +42,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "rest_framework.authtoken",
+    "drf_spectacular",
     "users",
-    "calculator"
+    "calculator",
 ]
 
 MIDDLEWARE = [
@@ -132,10 +133,18 @@ AUTH_USER_MODEL = "users.User"
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.TokenAuthentication"
-    ]
+    ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 # set custom backend for authentication
 AUTHENTICATION_BACKENDS = [
     "users.backends.AuthenticateByEmail",
 ]
+
+# set spectacular settings
+SPECTACULAR_SETTINGS = {
+    "TITLE": "FitAPI",
+    "DESCRIPTION": "API for calculate proteins, carbs, fats and calories for authenticated user",
+    "VERSION": "0.1",
+}

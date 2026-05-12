@@ -1,5 +1,7 @@
 from django.contrib.auth import authenticate
-from rest_framework import status
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema_view, extend_schema, inline_serializer
+from rest_framework import status, serializers
 from rest_framework.authtoken.models import Token
 from rest_framework.generics import (
     CreateAPIView,
@@ -23,12 +25,24 @@ from .permissions import IsOwner
 
 
 # get users list view
+@extend_schema_view(
+    get=extend_schema(
+        summary="Get users",
+        description="Get list of users",
+    )
+)
 class UserListView(ListAPIView):
     queryset = User.objects.filter(is_active=True).all()
     serializer_class = UserListSerializer
 
 
 # get user profile view
+@extend_schema_view(
+    get=extend_schema(
+        summary="User profile",
+        description="Get user profile",
+    )
+)
 class UserProfileView(RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserRetrieveSerializer
@@ -36,12 +50,28 @@ class UserProfileView(RetrieveAPIView):
 
 
 # view for register user
+@extend_schema_view(
+    post=extend_schema(
+        summary="New user",
+        description="Create new user",
+    )
+)
 class UserCreateView(CreateAPIView):
     model = User
     serializer_class = UserCreateSerializer
 
 
 # view for update user
+@extend_schema_view(
+    put=extend_schema(
+        summary="Update user",
+        description="Updated user fully",
+    ),
+    patch=extend_schema(
+        summary="Patch user",
+        description="Update user partially",
+    ),
+)
 class UserUpdateView(UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserUpdateSerializer
@@ -49,6 +79,16 @@ class UserUpdateView(UpdateAPIView):
 
 
 # view for user soft delete
+@extend_schema_view(
+    delete=extend_schema(
+        summary="Delete user",
+        description="Soft user deletion (is_active=False)",
+        responses={
+            200: OpenApiTypes.STR,
+            404: OpenApiTypes.STR,
+        },
+    )
+)
 class UserDeleteView(DestroyAPIView):
     queryset = User.objects.all()
     permission_classes = [IsAuthenticated, IsOwner]
@@ -66,6 +106,21 @@ class UserDeleteView(DestroyAPIView):
 
 # view for login
 class LoginView(APIView):
+    @extend_schema(
+        summary="Login user",
+        description="Login user and get token",
+        request=inline_serializer(
+            name="LoginSerializer",
+            fields={
+                "email": serializers.EmailField(),
+                "password": serializers.CharField(),
+            },
+        ),
+        responses={
+            200: OpenApiTypes.STR,
+            401: OpenApiTypes.STR,
+        },
+    )
     def post(self, request, *args, **kwargs):
         email = request.data.get("email")
         password = request.data.get("password")

@@ -4,15 +4,22 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('users', '0006_user_body_mass_index'),
+        ("users", "0006_user_body_mass_index"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='user',
-            name='target',
-            field=models.CharField(choices=[('weight maintenance', 'Maintenance'), ('gaining muscle mass', 'Gaining muscle mass'), ('weight loss', 'Loss weight')], default='weight maintenance', max_length=20),
+            model_name="user",
+            name="target",
+            field=models.CharField(
+                choices=[
+                    ("weight maintenance", "Maintenance"),
+                    ("gaining muscle mass", "Gaining muscle mass"),
+                    ("weight loss", "Loss weight"),
+                ],
+                default="weight maintenance",
+                max_length=20,
+            ),
         ),
     ]

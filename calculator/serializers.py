@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+
 class NutritionSerializer(serializers.Serializer):
     protein = serializers.FloatField()
     fats = serializers.FloatField()
