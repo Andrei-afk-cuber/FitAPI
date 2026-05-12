@@ -47,11 +47,11 @@ class User(AbstractUser):
     age = models.IntegerField(
         validators=[MinValueValidator(16), MaxValueValidator(100)]
     )
-    activity_status = models.CharField(
-        choices=ACTIVITY_CHOICES, max_length=5, default="*"
+    activity_status = models.IntegerField(
+        choices=ACTIVITY_CHOICES, default=1
     )
     target = models.CharField(
-        choices=TARGET_CHOICES, max_length=20, default="weight maintenance"
+        choices=TARGET_CHOICES, max_length=20, default="maintain"
     )
     body_mass_index = models.FloatField(default=0)
     password = models.CharField(blank=False, validators=[MinLengthValidator(8)])

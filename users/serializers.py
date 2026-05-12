@@ -47,6 +47,8 @@ class UserCreateSerializer(serializers.ModelSerializer):
             "height",
             "age",
             "body_mass_index",
+            "activity_status",
+            "target",
             "email",
             "password",
             "repeat_password",
