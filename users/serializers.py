@@ -25,6 +25,7 @@ class UserRetrieveSerializer(serializers.ModelSerializer):
             "height",
             "activity_status",
             "is_active",
+            "body_mass_index"
         )
 
 
@@ -33,6 +34,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     repeat_password = serializers.CharField(write_only=True)
     password = serializers.CharField(write_only=True)
+    body_mass_index = serializers.SerializerMethodField()
 
     class Meta:
         model = User
@@ -44,10 +46,15 @@ class UserCreateSerializer(serializers.ModelSerializer):
             "weight",
             "height",
             "age",
+            "body_mass_index",
             "email",
             "password",
             "repeat_password",
         )
+
+    # calculate body mass index
+    def get_body_mass_index(self, obj):
+        return round(obj.weight / (obj.height / 100) ** 2, 1)
 
     # check email unique
     def validate_email(self, value):

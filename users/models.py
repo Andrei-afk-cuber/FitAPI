@@ -43,6 +43,7 @@ class User(AbstractUser):
     activity_status = models.CharField(
         choices=ACTIVITY_CHOICES, max_length=5, default="*"
     )
+    body_mass_index = models.FloatField(default=0)
     password = models.CharField(blank=False, validators=[MinLengthValidator(8)])
 
     class Meta:
