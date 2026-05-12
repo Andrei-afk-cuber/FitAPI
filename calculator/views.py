@@ -30,3 +30,10 @@ class DietView(APIView):
         response = NutritionSerializer(macros).data
 
         return Response(response, status=status.HTTP_200_OK)
+
+
+class ActivityInfoView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        return Response(NutritionCalculator.get_info(), status=status.HTTP_200_OK)

@@ -1,6 +1,26 @@
 class NutritionCalculator:
-    @staticmethod
-    def calculate_bmr(gender, weight, height, age):
+    ACTIVITY_FACTORS = {1: 1.2, 2: 1.375, 3: 1.55, 4: 1.725, 5: 1.9}
+    GOAL_FACTORS = {"loss": 0.85, "maintain": 1, "gain": 1.1}
+    MACRO_RATIOS = {
+        "loss": {
+            "protein": 0.40,
+            "fats": 0.30,
+            "carbs": 0.30,
+        },
+        "maintain": {
+            "protein": 0.30,
+            "fats": 0.30,
+            "carbs": 0.40,
+        },
+        "gain": {
+            "protein": 0.30,
+            "fats": 0.25,
+            "carbs": 0.45,
+        },
+    }
+
+    @classmethod
+    def calculate_bmr(cls, gender, weight, height, age):
         "Calculate by Miffiline-San Genore"
         # for male
         if gender == "M":
@@ -9,52 +29,32 @@ class NutritionCalculator:
         else:
             return (10 * weight) + (6.25 * height) - (5 * age) - 161
 
-    @staticmethod
-    def get_activity_factor(activity_status):
+    @classmethod
+    def get_activity_factor(cls, activity_status):
         "Transform number to coefficients"
-        activity_factors = {1: 1.2, 2: 1.375, 3: 1.55, 4: 1.725, 5: 1.9}
-        return activity_factors[activity_status]
+        return cls.ACTIVITY_FACTORS[activity_status]
 
-    @staticmethod
-    def calculate_tdee(bmr, activity_status):
+    @classmethod
+    def calculate_tdee(cls, bmr, activity_status):
         """Total daily calorie intake"""
-        factor = NutritionCalculator.get_activity_factor(activity_status)
+        factor = cls.get_activity_factor(activity_status)
         return bmr * factor
 
-    @staticmethod
-    def get_goal_factor(target):
+    @classmethod
+    def get_goal_factor(cls, target):
         """Get coefficient by target"""
-        goal_factors = {"loss": 0.85, "maintain": 1, "gain": 1.1}
-        return goal_factors[target]
+        return cls.GOAL_FACTORS[target]
 
-    @staticmethod
-    def calculate_daily_calories(tdee, target):
+    @classmethod
+    def calculate_daily_calories(cls, tdee, target):
         """Calculate daily calorie intake"""
-        factor = NutritionCalculator.get_goal_factor(target)
+        factor = cls.get_goal_factor(target)
         return tdee * factor
 
-    @staticmethod
-    def calculate_macros(calories, target, gender, weight):
+    @classmethod
+    def calculate_macros(cls, calories, target, gender, weight):
         """Calculate macro intake"""
-        macro_ratios = macro_ratios = {
-            "loss": {
-                "protein": 0.40,  # 40% белки (сохраняем мышцы)
-                "fats": 0.30,  # 30% жиры
-                "carbs": 0.30,  # 30% углеводы
-            },
-            "maintain": {
-                "protein": 0.30,
-                "fats": 0.30,
-                "carbs": 0.40,
-            },
-            "gain": {
-                "protein": 0.30,
-                "fats": 0.25,
-                "carbs": 0.45,
-            },
-        }
-
-        ratios = macro_ratios[target]
+        ratios = cls.MACRO_RATIOS[target]
 
         # calculation in grams
         protein_calories = calories * ratios["protein"]
@@ -72,4 +72,14 @@ class NutritionCalculator:
             "fats": round(fat_calories / 9, 1),
             "carbs": round(carbs_calories / 4, 1),
             "total_calories": round(calories),
+        }
+
+    @classmethod
+    def get_info(cls):
+        return {
+            1: "Sedentary lifestyle",
+            2: "Light activity 1-3 days a week",
+            3: "Moderate exercise 3-5 days a week",
+            4: "Intensive training 6-7 days a week",
+            5: "Very intense exercise every day"
         }
