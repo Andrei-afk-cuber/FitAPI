@@ -23,6 +23,7 @@ class UserRetrieveSerializer(serializers.ModelSerializer):
             "age",
             "weight",
             "height",
+            "activity_status",
             "is_active",
         )
 

@@ -24,15 +24,15 @@ from .permissions import IsOwner
 
 # get users list view
 class UserListView(ListAPIView):
-    queryset = User.objects.all()
+    queryset = User.objects.filter(is_active=True).all()
     serializer_class = UserListSerializer
-    permission_classes = [IsAuthenticated]
 
 
 # get user profile view
 class UserProfileView(RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = UserRetrieveSerializer
+    permission_classes = [IsAuthenticated, IsOwner]
 
 
 # view for register user
