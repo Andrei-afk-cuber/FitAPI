@@ -4,6 +4,7 @@ from rest_framework.exceptions import ValidationError
 from .models import User
 from .util_classes import EmailSender
 
+
 # serializer for get users list
 class UserListSerializer(serializers.ModelSerializer):
     class Meta:
@@ -74,10 +75,16 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         try:
-            EmailSender.send_email(validated_data["email"], 'Test message')
+            EmailSender.send_email(
+                validated_data["email"],
+                validated_data["first_name"],
+                validated_data["last_name"],
+            )
         except Exception as e:
-            print(f'Email sending failed: {e}')
-            raise ValidationError("Unable to send welcome message. Please check your email or try again later.")
+            print(f"Email sending failed: {e}")
+            raise ValidationError(
+                "Unable to send welcome message. Please check your email or try again later."
+            )
 
         user = User(**validated_data)
         user.set_password(validated_data["password"])

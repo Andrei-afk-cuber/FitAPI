@@ -14,7 +14,10 @@ class DatabaseConfig:
     DB_HOST: str = os.getenv("DB_HOST")
     DB_PORT: str = os.getenv("DB_PORT")
 
+
 @dataclass
 class EmailConfig:
     EMAIL_FROM: str = os.getenv("EMAIL_FROM")
     EMAIL_PASSWORD: str = os.getenv("EMAIL_PASSWORD")
+    EMAIL_SERVER: str = os.getenv("EMAIL_SERVER")
+    EMAIL_PORT: int = os.getenv("EMAIL_PORT")
