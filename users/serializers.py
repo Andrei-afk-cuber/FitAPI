@@ -2,7 +2,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from .models import User
-
+from .util_classes import EmailSender
 
 # serializer for get users list
 class UserListSerializer(serializers.ModelSerializer):
@@ -73,6 +73,12 @@ class UserCreateSerializer(serializers.ModelSerializer):
         raise ValidationError("Password does not match")
 
     def create(self, validated_data):
+        try:
+            EmailSender.send_email(validated_data["email"], 'Test message')
+        except Exception as e:
+            print(f'Email sending failed: {e}')
+            raise ValidationError("Unable to send welcome message. Please check your email or try again later.")
+
         user = User(**validated_data)
         user.set_password(validated_data["password"])
         user.save()

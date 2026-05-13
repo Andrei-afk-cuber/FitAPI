@@ -44,5 +44,4 @@ class EmailSender:
 
             return True
         except Exception as e:
-            print(f'Message sent failed with {e}')
             return False

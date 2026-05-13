@@ -60,6 +60,9 @@ class UserCreateView(CreateAPIView):
     model = User
     serializer_class = UserCreateSerializer
 
+    def post(self, request, *args, **kwargs):
+        return super().post(request,*args, **kwargs)
+
 
 # view for update user
 @extend_schema_view(
